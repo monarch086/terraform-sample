@@ -14,14 +14,14 @@ provider "aws" {
 }
 
 locals {
-  key_pair = "~/keys/devops-hw01.pem"
+  key_pair = "barsuk-key"
 }
 
 resource "aws_instance" "app_server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
-  key_name      = "barsuk-key"
-  vpc_security_group_ids = ["sg-01142ec3c87ec19dd"]
+  key_name      = local.key_pair
+  vpc_security_group_ids = [data.aws_security_group.selected.id]
 
   tags = {
     Name = "ExampleInstance"
